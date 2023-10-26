@@ -21,7 +21,7 @@ video = 'ешкере 2.mp4'
 class BotYT:
     def __init__(self):
         self.options = webdriver.ChromeOptions()
-        self.options.add_argument('--proxy-server=%s' % random_proxy())
+        # self.options.add_argument('--proxy-server=%s' % random_proxy())
         self.browser = uc.Chrome(use_subprocess=False, driver_executable_path=os.getenv('DRIVER_PATH'),
                                  options=self.options)
 
@@ -30,7 +30,7 @@ class BotYT:
         self.browser.close()
         self.browser.quit()
 
-    def auth(self, mail):
+    def auth(self, account):
         browser = self.browser
         browser.get('https://www.youtube.com/')
         browser.maximize_window()
@@ -47,18 +47,19 @@ class BotYT:
         # insert cookie
         pickle.dump(
             browser.get_cookies(),
-            open(f'{os.getenv("COOKIES_PATH")}{mail}_cookies', 'wb')
+            open(f'{os.getenv("COOKIES_PATH")}{account}_cookies', 'wb')
         )
         print('Cookies saved successfully !')
 
-    def load_video(self, mail):
+    def load_video(self, account, i):
+        filters = len(os.listdir('video'))
+        videos_list = os.listdir('video')
         browser = self.browser
-
         browser.get('https://www.youtube.com/')
         browser.maximize_window()
         time.sleep(3)
         for cookie in pickle.load(
-                open(f'{os.getenv("COOKIES_PATH")}{mail}', 'rb')):
+                open(f'{os.getenv("COOKIES_PATH")}{account}', 'rb')):
             browser.add_cookie(cookie)
 
         time.sleep(2)
@@ -78,7 +79,7 @@ class BotYT:
         app = pywinauto.application.Application()
         app.connect(title='Открытие')
         app.Dialog.Edit0.type_keys(
-            f"{os.getenv('VIDEO_PATH')}{video}",
+            f"{os.getenv('VIDEO_PATH')}{videos_list[i % filters]}",
             with_spaces=True)
         app.Dialog.Edit0.type_keys('{ENTER}')
         time.sleep(3)
@@ -108,7 +109,7 @@ class BotYT:
                                                                     "tp-yt-paper-radio-button[name='PUBLIC']").click()
         browser.find_element(By.ID, 'done-button').click()
         time.sleep(3)
-        print(f"✅ Video uploaded successfully in account ({mail.split('_')[0]})")
+        print(f"✅ Video uploaded successfully in account ({account.split('_')[0]})")
         # wait loading video
 
         # WebDriverWait(browser, 20).until(
@@ -117,9 +118,7 @@ class BotYT:
         # print(f"✅ Video uploaded successfully in account ({mail.split('_')[0]})")
 
 
-# 740 300 655 215
-
-# if __name__ == "__main__":
-#     bot = BotTT()
-#     bot.load_video(mail='utkin4393@gmail.com_cookies')
-#     bot.close_browser()
+if __name__ == "__main__":
+    bot = BotYT()
+    bot.load_video(account='utkin4393@gmail.com_cookies', i=1)
+    bot.close_browser()

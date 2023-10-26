@@ -1,9 +1,9 @@
 import os
 import typer
-from TikTokBot import BotTT
+from YouTubeBot import BotYT
 from db import DataBase
 from supports import account_exists
-from TikTokBot_mp import load_mp
+from YouTubeBot_mp import load_mp
 from multiprocessing import Pool
 
 app = typer.Typer()
@@ -16,10 +16,12 @@ def post(category: str):
     error_accounts = []
     if category == 'all':
         for i, account in enumerate(os.listdir('cookies')):
-            bot = BotTT()
+            bot = BotYT()
             try:
                 bot.load_video(account=account, i=i)
                 # selenium.common.exceptions.NoSuchElementException
+            except OSError:
+                pass
             except Exception as ex:
                 print('ERROR' f'In account: {account.split("_")[0]}')
                 # print(ex)
@@ -29,9 +31,11 @@ def post(category: str):
                 bot.close_browser()
         if len(error_accounts) > 0:
             for i, err_acc in enumerate(error_accounts):
-                bot = BotTT()
+                bot = BotYT()
                 try:
                     bot.load_video(account=err_acc, i=i)
+                except OSError:
+                    pass
                 except Exception as ex:
                     print('CRITICAL ERROR' f'In account: {err_acc.split("_")[0]}')
                     # print(ex)
@@ -42,9 +46,11 @@ def post(category: str):
         if db.category_exists(category):
             error_accounts = []
             for i, account in enumerate(db.get_accounts_in_category(category)):
-                bot = BotTT()
+                bot = BotYT()
                 try:
                     bot.load_video(account=account, i=i)
+                except OSError:
+                    pass
                     # selenium.common.exceptions.NoSuchElementException
                 except Exception as ex:
                     print('ERROR' f'In account: {account.split("_")[0]}')
@@ -55,9 +61,11 @@ def post(category: str):
                     bot.close_browser()
             if len(error_accounts) > 0:
                 for i, err_acc in enumerate(error_accounts):
-                    bot = BotTT()
+                    bot = BotYT()
                     try:
                         bot.load_video(account=err_acc, i=i)
+                    except OSError:
+                        pass
                     except Exception as ex:
                         print('CRITICAL ERROR' f'In account: {err_acc.split("_")[0]}')
                         # print(ex)
@@ -86,8 +94,8 @@ def postmp(category: str):
 
 @app.command()
 def auth(username: str):
-    bot = BotTT()
-    bot.auth(username=username)
+    bot = BotYT()
+    bot.auth(account=username)
 
 
 # добавить категорию
