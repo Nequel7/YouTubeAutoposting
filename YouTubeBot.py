@@ -11,11 +11,10 @@ from selenium.webdriver.common.action_chains import ActionChains
 import os
 import pickle
 import dotenv
-from video_title import HASHTAGS_YT
 from supports import random_proxy
 
 dotenv.load_dotenv()
-video = 'ешкере 2.mp4'
+
 
 
 class BotYT:
@@ -118,7 +117,7 @@ class BotYT:
         # print(f"✅ Video uploaded successfully in account ({mail.split('_')[0]})")
 
 
-if __name__ == "__main__":
-    bot = BotYT()
-    bot.load_video(account='utkin4393@gmail.com_cookies', i=1)
-    bot.close_browser()
+# if __name__ == "__main__":
+#     bot = BotYT()
+#     bot.load_video(account='utkin4393@gmail.com_cookies', i=1)
+#     bot.close_browser()
