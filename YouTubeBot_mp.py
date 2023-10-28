@@ -3,7 +3,6 @@ import os
 from YouTubeBot import BotYT
 from multiprocessing import Pool
 
-url = 'https://www.tiktok.com/'
 dotenv.load_dotenv()
 
 

@@ -20,8 +20,6 @@ def post(category: str):
             try:
                 bot.load_video(account=account, i=i)
                 # selenium.common.exceptions.NoSuchElementException
-            except OSError:
-                pass
             except Exception as ex:
                 print('ERROR' f'In account: {account.split("_")[0]}')
                 # print(ex)
@@ -34,8 +32,6 @@ def post(category: str):
                 bot = BotYT()
                 try:
                     bot.load_video(account=err_acc, i=i)
-                except OSError:
-                    pass
                 except Exception as ex:
                     print('CRITICAL ERROR' f'In account: {err_acc.split("_")[0]}')
                     # print(ex)
@@ -49,8 +45,6 @@ def post(category: str):
                 bot = BotYT()
                 try:
                     bot.load_video(account=account, i=i)
-                except OSError:
-                    pass
                     # selenium.common.exceptions.NoSuchElementException
                 except Exception as ex:
                     print('ERROR' f'In account: {account.split("_")[0]}')
@@ -64,8 +58,6 @@ def post(category: str):
                     bot = BotYT()
                     try:
                         bot.load_video(account=err_acc, i=i)
-                    except OSError:
-                        pass
                     except Exception as ex:
                         print('CRITICAL ERROR' f'In account: {err_acc.split("_")[0]}')
                         # print(ex)
