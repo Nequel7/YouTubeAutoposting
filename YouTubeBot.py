@@ -11,16 +11,16 @@ from selenium.webdriver.common.action_chains import ActionChains
 import os
 import pickle
 import dotenv
+from video_title import HASHTAGS_YT
 from supports import random_proxy
 
 dotenv.load_dotenv()
 
 
-
 class BotYT:
     def __init__(self):
         self.options = webdriver.ChromeOptions()
-        # self.options.add_argument('--proxy-server=%s' % random_proxy())
+        self.options.add_argument('--proxy-server=%s' % random_proxy())
         self.browser = uc.Chrome(use_subprocess=False, driver_executable_path=os.getenv('DRIVER_PATH'),
                                  options=self.options)
 
@@ -31,9 +31,10 @@ class BotYT:
 
     def auth(self, account):
         browser = self.browser
-        browser.get('https://www.youtube.com/')
+        browser.get('https://www.youtube.com')
+        time.sleep(1)
         browser.maximize_window()
-        time.sleep(3)
+        time.sleep(1)
         # 1839 30
         # three_dots = browser.find_element(By.ID, 'buttons')
         # print('1111')
@@ -54,7 +55,7 @@ class BotYT:
         filters = len(os.listdir('video'))
         videos_list = os.listdir('video')
         browser = self.browser
-        browser.get('https://www.youtube.com/')
+        browser.get('https://www.youtube.com')
         browser.maximize_window()
         time.sleep(3)
         for cookie in pickle.load(
@@ -81,7 +82,8 @@ class BotYT:
             f"{os.getenv('VIDEO_PATH')}{videos_list[i % filters]}",
             with_spaces=True)
         app.Dialog.Edit0.type_keys('{ENTER}')
-        time.sleep(3)
+        # ожидание загрузки видео
+        time.sleep(10)
         # set hashtags
 
         # imprt = browser.find_element(By.ID, 'reuse-details-button')
@@ -115,7 +117,6 @@ class BotYT:
         #     EC.element_to_be_clickable(
         #         (By.ID, "close-icon-button")))
         # print(f"✅ Video uploaded successfully in account ({mail.split('_')[0]})")
-
 
 # if __name__ == "__main__":
 #     bot = BotYT()
