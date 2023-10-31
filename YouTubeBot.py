@@ -11,7 +11,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 import os
 import pickle
 import dotenv
-from video_title import HASHTAGS_YT
 from supports import random_proxy
 
 dotenv.load_dotenv()
