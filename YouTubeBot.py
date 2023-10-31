@@ -20,6 +20,7 @@ class BotYT:
     def __init__(self):
         self.options = webdriver.ChromeOptions()
         self.options.add_argument('--proxy-server=%s' % random_proxy())
+        self.options.page_load_strategy = 'none'
         self.browser = uc.Chrome(use_subprocess=False, driver_executable_path=os.getenv('DRIVER_PATH'),
                                  options=self.options)
 
@@ -109,6 +110,8 @@ class BotYT:
                                                                     "tp-yt-paper-radio-button[name='PUBLIC']").click()
         browser.find_element(By.ID, 'done-button').click()
         time.sleep(3)
+        # удаление видео
+        os.remove(f"{os.getenv('VIDEO_PATH')}{videos_list[i % filters]}")
         print(f"✅ Video uploaded successfully in account ({account.split('_')[0]})")
         # wait loading video
 
