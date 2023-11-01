@@ -73,6 +73,9 @@ class BotYT:
                                                                                       yoffset=50).click().perform()
         time.sleep(3)
         # select video
+        WebDriverWait(browser, 100).until(
+            EC.element_to_be_clickable(
+                (By.ID, 'select-files-button')))
         browser.find_element(By.ID, 'select-files-button').click()
         time.sleep(3)
 
@@ -82,8 +85,25 @@ class BotYT:
             f"{os.getenv('VIDEO_PATH')}{videos_list[i % filters]}",
             with_spaces=True)
         app.Dialog.Edit0.type_keys('{ENTER}')
+        time.sleep(3)
+
         # ожидание загрузки видео
-        time.sleep(10)
+
+        for i in range(100):
+            if 'Загрузка видео завершена' in browser.find_element(By.CSS_SELECTOR,
+                                                                  "span[class='progress-label style-scope ytcp-video-upload-progress']").text:
+                break
+            elif 'Upload complete' in browser.find_element(By.CSS_SELECTOR,
+                                                           "span[class='progress-label style-scope ytcp-video-upload-progress']").text:
+                break
+            else:
+                time.sleep(0.25)
+        time.sleep(1)
+        # set description
+        imprt = browser.find_element(By.ID, 'reuse-details-button')
+        action = ActionChains(browser)
+        action.move_to_element(imprt).move_by_offset(xoffset=0, yoffset=210).click().send_keys(
+            f'Описание видео').perform()
         # set hashtags
 
         # imprt = browser.find_element(By.ID, 'reuse-details-button')
@@ -108,6 +128,8 @@ class BotYT:
         # public access
         browser.find_element(By.ID, 'first-container').find_element(By.CSS_SELECTOR,
                                                                     "tp-yt-paper-radio-button[name='PUBLIC']").click()
+
+        time.sleep(2)
         browser.find_element(By.ID, 'done-button').click()
         time.sleep(3)
         # удаление видео
