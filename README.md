@@ -1,1 +1,1 @@
-CLI Autoposting bot for TikTok
+CLI Autoposting bot for YouTube
